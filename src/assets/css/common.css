@@ -1,0 +1,22 @@
+:root {
+    --primary-color:#ff9854;
+    --line-color: #faf8f9;
+
+    /* 全局修改: 修改search样式 */
+    --van-search-left-icon-color:var(--primary-color) !important
+
+}
+
+body {
+    font-size: 14px
+}
+
+/* 需要覆盖tabbar的就添加这个类 */
+.top_page {
+     position: relative;
+     height: 100vh;
+     z-index: 2;
+     background-color: #fff;
+     
+     overflow-y:auto;
+}
