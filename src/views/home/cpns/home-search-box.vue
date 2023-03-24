@@ -4,7 +4,7 @@
         <div class="location bottom-gray-line">
             <div class="city" @click="cityClick">{{ currentCity.cityName }}</div>
             <div class="position">
-                <span class="text">我的位置</span>
+                <span class="text" @click="myPositionClick">我的位置</span>
                 <img src="@/assets/img/home/icon_location.png" alt="定位图标">
             </div>
         </div>
@@ -37,39 +37,59 @@
         </div>
 
         <!-- 热门建议 -->
-        <div class="section hot-suggests">
+        <div class="section hot-suggests ">
             <template v-for="(item, index) in hotSuggests" :key="item.tagText.text">
                 <div class="hot-item">
                     {{ item.tagText.text }}
                 </div>
             </template>
         </div>
+
+        <!-- 搜索按钮 -->
+        <div class="section search-btn">
+            <div class="btn" @click="searchBtnClick">开始搜索</div>
+        </div>
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref,isReactive } from 'vue'
 import { useRouter } from 'vue-router';
 import useCityStore from '@/stores/modules/city';
 import { formatMonthDay, getDiffDays } from '@/utils/formatDate'
 import useHomeStore from '@/stores/modules/home'
 import { storeToRefs } from 'pinia';
+import useMainStore from '@/stores/modules/main'
 
 // 城市点击
-const { currentCity } = useCityStore()
+const cityStore = useCityStore()
+const { currentCity } = storeToRefs(cityStore)  // 这里没加storeToRefs也有响应式？
 const router = useRouter()
 const cityClick = () => {
     router.push("/city")
 }
 
-// 日期范围
-const nowDate = new Date()  // 今天
-const nextDate = new Date()
-// 第二天  setDate的返回值是时间戳 这样设置后nextDate表示默认格式的第二天
-nextDate.setDate(new Date().getDate() + 1)
+// 我的位置点击
+const myPositionClick = () => {
+    navigator.geolocation.getCurrentPosition(res => {
+        // 获取的结果是经纬度
+        console.log("获取位置成功", res)
+    }, err => {
+        console.log("获取位置失败", err)
+    }, {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+    })
+}
 
-const startDate = ref(formatMonthDay(nowDate))
-const endDate = ref(formatMonthDay(nextDate))
+// 日期范围
+// 1. 拿到mainStore中的起始时间
+const mainStore = useMainStore()
+const {nowDate,nextDate} = storeToRefs(mainStore)
+// 2. 起始时间格式化
+const startDate = ref(formatMonthDay(nowDate.value))
+const endDate = ref(formatMonthDay(nextDate.value))
 
 // 持续时间
 const stayDay = ref(1)
@@ -77,8 +97,15 @@ const stayDay = ref(1)
 // 日历
 const showsCalendar = ref(false)
 const onConfirm = (date) => {
+    // 3. 拿到日历中设置的起始时间
     const selectStartDate = date[0]
     const selectEndDate = date[1]
+
+    // 4.日历中的时间传回mainStore中
+    nowDate.value = selectStartDate
+    nextDate.value = selectEndDate
+
+    // 5.把设置的时间格式化
     startDate.value = formatMonthDay(selectStartDate)
     endDate.value = formatMonthDay(selectEndDate)
     showsCalendar.value = false
@@ -87,10 +114,21 @@ const onConfirm = (date) => {
 
 // 获取热门数据
 const homeStore = useHomeStore()
-homeStore.fetchHotSuggestData()  // 获取数据 homeStore更新
 const { hotSuggests } = storeToRefs(homeStore)
 
-console.log(hotSuggests.value)
+// console.log("currentCity",isReactive(currentCity))
+
+// 搜索按钮点击
+const searchBtnClick = () => {
+    router.push({
+        path:"/search",
+        query:{
+            startDate: startDate.value,
+            endDate:endDate.value,
+            currentCity: currentCity.cityName
+        }
+    })
+}
 
 </script>
 
@@ -190,7 +228,23 @@ console.log(hotSuggests.value)
         border-radius: 14px;
         color: #3f4954;
         background-color: #f1f3f5;
-        line-height: 1;
+        // line-height: 1;
     }
+}
+
+.search-btn {
+    margin-top: 20px;
+    .btn {
+        width: 324px;
+        height: 38px;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 38px;
+        text-align: center;
+        border-radius: 20px;
+        color: #fff;
+        background-image: var(--theme-linear-gradient);
+    }
+
 }
 </style>

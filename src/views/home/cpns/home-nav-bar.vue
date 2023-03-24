@@ -1,7 +1,7 @@
 <template>
     <div class="home-nav-bar">
         <div class="title">
-            Cozy Trip
+            FlexStay
         </div>
     </div>
 </template>
@@ -18,7 +18,7 @@
     height: 46px;
     .title{
         color: var(--primary-color);
-        font-size: 20px;
+        font-size: 22px;
         font-weight: 600;
         font-style: italic;
     }

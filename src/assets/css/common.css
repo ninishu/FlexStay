@@ -3,12 +3,19 @@
     --line-color: #faf8f9;
 
     /* 全局修改: 修改search样式 */
-    --van-search-left-icon-color:var(--primary-color) !important
+    --van-search-left-icon-color:var(--primary-color) !important;
+    --van-primary-color: var(--primary-color);
+    --theme-linear-gradient:linear-gradient(90deg, #fa8c1d, #fcaf3f);
+    --van-font-bold: 500;
+
+    
 
 }
 
 body {
-    font-size: 14px
+    font-size: 14px;
+    font-family: PingFangSC-Regular, Helvetica Neue, sans-serif;
+    
 }
 
 /* 需要覆盖tabbar的就添加这个类 */
@@ -20,3 +27,26 @@ body {
      
      overflow-y:auto;
 }
+
+
+.icon_check {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background: url(../img/detail/icon_check.png) 0 0 / 100% 100%;
+  }
+
+  .ellipsis-text-1 {
+    overflow: hidden;
+    word-wrap: normal;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  
+  .ellipsis-text-2 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }

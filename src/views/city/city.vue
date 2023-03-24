@@ -3,7 +3,7 @@
         <div class="top">
             <!-- 搜索框 -->
             <van-search shape="round" v-model="searchValue" 
-                placeholder="城市/区域/位置" show-action @search="onSearch"
+                placeholder="城市/区域/位置" show-action
                 @cancel="onCancel" />
 
             <!-- 标签 国内外 -->
@@ -29,7 +29,7 @@ import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import useCityStore from '@/stores/modules/city'
 import { storeToRefs } from 'pinia';
-import CityGroup from './cpms/CityGroup.vue'
+import CityGroup from './cpns/CityGroup.vue'
 const router = useRouter()
 
 // 搜索框 
