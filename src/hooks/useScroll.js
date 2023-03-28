@@ -7,11 +7,11 @@ export default function useScroll(elRef) {
     const clientHeight = ref(0)
     const scrollTop = ref(0)
     const scrollHeight = ref(0)
-
     // 滚动监听  使用节流进行优化
     const scrollListenerHandler = throttle(() => {
         if (el === window) {
             clientHeight.value = document.documentElement.clientHeight  // 视口高度
+            // console.log("test",clientHeight)
             scrollTop.value = document.documentElement.scrollTop  // 滚动出去的距离
             scrollHeight.value = document.documentElement.scrollHeight  // 总高度
         }else{

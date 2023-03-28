@@ -61,7 +61,7 @@ getDetailInfos(houseId).then(res => {
 
 // tabControl相关操作
 const detailRef = ref()
-const { scrollTop } = useScroll(detailRef) // 这里是元素滚动，所以要传入元素
+const { scrollTop } = useScroll() // 这里是元素滚动，所以要传入元素
 // 在这里读取detailRef.value是读取不到的，因为还没有挂载
 const showTabControl = computed(() => {
   // console.log(scrollTop.value)

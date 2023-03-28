@@ -19,7 +19,6 @@
             <template v-for="(value, key, index) in allCities">
                 <city-group v-show="key===tabActive" :currentGroup="value"></city-group>
             </template>
-           
         </div>
     </div>
 </template> 

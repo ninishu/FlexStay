@@ -16,6 +16,7 @@
             <template v-for="groupItem in currentGroup?.cities" :key="groupItem.group">
                 <van-index-anchor :index="groupItem.group" />
                 <!-- cityItem 表示A(or 别的组)所有的国家 -->
+                
                 <template v-for="cityItem in groupItem.cities" :key="cityItem.cityId">
                     <div class="city">
                         <van-cell :title="cityItem.cityName" @click="cityClick(cityItem)"/>
@@ -53,6 +54,9 @@ const cityClick = (city)=>{
     router.push("/home")
     cityStore.currentCity = city
 }
+
+
+
 </script>
 
 <style lang='less' scoped>
